@@ -30,6 +30,7 @@ INSTALLED_APPS = [
     # Mahalliy app'lar
     'apps.common',
     'apps.directory',
+    'apps.operations',
 ]
 
 MIDDLEWARE = [
@@ -128,20 +129,25 @@ REST_FRAMEWORK = {
 SPECTACULAR_SETTINGS = {
     'TITLE': "UNG | Quduqlar qurilishi bo'yicha boshqaruv tizimi API",
     'DESCRIPTION': (
-        "## O'zbekneftgaz — Burg'ulash va Operatsiyalar Boshqaruvi REST API Hujjatlari\n\n"
-        "Ushbu API quduqlar qurilishi, burg'ulash qurilmalari turlari, hududlar va konlar (maydonlar), "
-        "usta (prorab)lar, transport turlari, xodimlar va ularning lavozimlarini boshqarish uchun mo'ljallangan.\n\n"
+        "## Quduqlar qurilishi bo'yicha boshqaruv tizimi API\n\n"
+        "Ushbu API quduqlar qurilishi, VBM (Vishka-montaj) operatsiyalari, bosqichlar (demontaj, tashish, montaj), "
+        "kunlik ish hisobotlari, transport vositalari hamda barcha tizim ma'lumotnomalarini boshqarish uchun mo'ljallangan.\n\n"
         "### 📌 Imkoniyatlar va Qulayliklar:\n"
         "- **CRUD operatsiyalari**: Har bir resurs uchun to'liq Create, Read, Update, Delete amallari mavjud.\n"
+        "- **Optimallashtirilgan so'rovlar**: N+1 so'rovlar oldi olingan (`select_related`, `prefetch_related`).\n"
         "- **Qidiruv (Search)**: Ro'yxatlar bo'yicha `?search=nomi` parametri orqali tezkor qidiruv.\n"
-        "- **Filtrlash (Filter)**: Masalan, maydonlarni viloyat bo'yicha `?region_id=1` yoki xodimlarni `?position_id=2` orqali filtrlash.\n"
-        "- **Saralash (Ordering)**: `?ordering=name` yoki `?ordering=-created_at` orqali saralash.\n"
+        "- **Filtrlash (Filter)**: Masalan, maydonlar, sanalar, usta, bajarilish foizi bo'yicha filtrlash.\n"
+        "- **Saralash (Ordering)**: `?ordering=field` yoki `?ordering=-field` orqali saralash.\n"
         "- **Paginatsiya**: Har bir so'rovda `page` va `page_size` parametrlarini uzatish imkoniyati (`max_page_size=100`).\n"
     ),
     'VERSION': '1.0.0',
     'SERVE_INCLUDE_SCHEMA': False,
     'COMPONENT_SPLIT_REQUEST': True,
     'TAGS': [
+        {'name': 'VBM Operatsiyalari (Vishka-montaj)', 'description': 'Burg\'ulash qurilmasini ko\'chirish va montaj qilish operatsiyalari'},
+        {'name': 'Operatsiya bosqichlari (Stages)', 'description': 'Demontaj, Tashish va Montaj bosqichlari (reja/fakt kunlar va sanalar)'},
+        {'name': 'Kunlik ish hisobotlari (Daily Works)', 'description': 'Har bir operatsiya bo\'yicha kunlik bajarilgan ishlar tavsifi'},
+        {'name': 'Kunlik transport vositalari', 'description': 'Kunlik ishlarga jalb qilingan transport vositalari va ularning soni'},
         {'name': 'Korxonalar', 'description': 'Tashkilot va korxonalarni boshqarish endpointlari'},
         {'name': "Burg'ulash uskunalari", 'description': "Burg'ulash uskunasi turlari ma'lumotnomasi"},
         {'name': 'Hududlar (Viloyatlar)', 'description': 'Viloyatlar va hududlar ma\'lumotnomasi'},

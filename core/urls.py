@@ -11,11 +11,12 @@ from drf_spectacular.views import (
 # Django Admin Panel Sozlamalari (Professional Branding)
 # ==============================================================================
 admin.site.site_header = "UNG | Quduqlar qurulishi bo'yicha"
-admin.site.site_title = "UNG Drilling "
+admin.site.site_title = "UNG Drilling"
 admin.site.index_title = "Tizim Ma'lumotnomalari va Boshqaruv Paneli"
 admin.site.empty_value_display = "— yo'q —"
 
 urlpatterns = [
+    # Bosh sahifani admin panelga yo'naltirish
     path('', RedirectView.as_view(url='/admin/', permanent=False)),
 
     # Django Admin paneli
@@ -26,6 +27,7 @@ urlpatterns = [
     path('api/docs/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
     path('api/redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
 
-    # Ma'lumotnomalar REST API v1
+    # REST API v1 (Ma'lumotnomalar va Operatsiyalar)
     path('api/v1/', include('apps.directory.urls')),
+    path('api/v1/', include('apps.operations.urls')),
 ]
