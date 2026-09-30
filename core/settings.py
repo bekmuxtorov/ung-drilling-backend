@@ -1,4 +1,5 @@
 import os
+from datetime import timedelta
 from pathlib import Path
 from dotenv import load_dotenv
 
@@ -26,14 +27,23 @@ INSTALLED_APPS = [
 
     # Uchinchi tomon kutubxonalari
     'rest_framework',
+    'rest_framework_simplejwt',
     'django_filters',
     'corsheaders',
     'drf_spectacular',
 
     # Mahalliy app'lar
     'apps.common',
+    'apps.accounts',
     'apps.directory',
     'apps.operations',
+]
+
+AUTH_USER_MODEL = 'accounts.User'
+
+AUTHENTICATION_BACKENDS = [
+    'apps.accounts.backends.RoleModelBackend',
+    'django.contrib.auth.backends.ModelBackend',
 ]
 
 MIDDLEWARE = [
@@ -115,6 +125,13 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Django REST Framework sozlamalari
 REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
     'DEFAULT_PAGINATION_CLASS': 'core.pagination.StandardResultsSetPagination',
     'PAGE_SIZE': 20,
     'DEFAULT_FILTER_BACKENDS': [
@@ -127,6 +144,23 @@ REST_FRAMEWORK = {
         'rest_framework.renderers.JSONRenderer',
         'rest_framework.renderers.BrowsableAPIRenderer',
     ],
+}
+
+# ==============================================================================
+# SimpleJWT Sozlamalari
+# ==============================================================================
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=1),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
+    'ROTATE_REFRESH_TOKENS': True,
+    'BLACKLIST_AFTER_ROTATION': False,
+    'UPDATE_LAST_LOGIN': True,
+    'ALGORITHM': 'HS256',
+    'SIGNING_KEY': SECRET_KEY,
+    'AUTH_HEADER_TYPES': ('Bearer',),
+    'AUTH_HEADER_NAME': 'HTTP_AUTHORIZATION',
+    'USER_ID_FIELD': 'id',
+    'USER_ID_CLAIM': 'user_id',
 }
 
 # ==============================================================================
@@ -150,6 +184,9 @@ SPECTACULAR_SETTINGS = {
     'SERVE_INCLUDE_SCHEMA': False,
     'COMPONENT_SPLIT_REQUEST': True,
     'TAGS': [
+        {'name': 'Autentifikatsiya (JWT)', 'description': 'JWT Token olish, yangilash, tekshirish hamda joriy profil amallari'},
+        {'name': 'Rollar va Ruxsatlar', 'description': 'Tizim rollari (Role) va Django ruxsatlari (Permissions) boshqaruvi'},
+        {'name': 'Foydalanuvchilar boshqaruvi', 'description': 'Foydalanuvchilar (User) ro\'yxati va boshqaruvi'},
         {'name': 'VBM Operatsiyalari (Vishka-montaj)', 'description': 'Burg\'ulash qurilmasini ko\'chirish va montaj qilish operatsiyalari'},
         {'name': 'Operatsiya bosqichlari (Stages)', 'description': 'Demontaj, Tashish va Montaj bosqichlari (reja/fakt kunlar va sanalar)'},
         {'name': 'Kunlik ish hisobotlari (Daily Works)', 'description': 'Har bir operatsiya bo\'yicha kunlik bajarilgan ishlar tavsifi'},
