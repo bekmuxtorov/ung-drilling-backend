@@ -14,6 +14,10 @@ from .models import (
     Position,
     Employee,
     OperationStageType,
+    MachineType,
+    DepthsLayers,
+    Resources,
+    Unit,
 )
 from .serializers import (
     EnterpriseSerializer,
@@ -25,6 +29,10 @@ from .serializers import (
     PositionSerializer,
     EmployeeSerializer,
     OperationStageChoiceSerializer,
+    MachineTypeSerializer,
+    DepthsLayersSerializer,
+    ResourcesSerializer,
+    UnitSerializer,
 )
 from .filters import (
     EnterpriseFilter,
@@ -35,7 +43,12 @@ from .filters import (
     TransportTypeFilter,
     PositionFilter,
     EmployeeFilter,
+    MachineTypeFilter,
+    DepthsLayersFilter,
+    ResourcesFilter,
+    UnitFilter,
 )
+
 
 
 @extend_schema_view(
@@ -399,3 +412,178 @@ class OperationStageTypeView(APIView):
             for choice in OperationStageType
         ]
         return Response(stages, status=status.HTTP_200_OK)
+
+
+@extend_schema_view(
+    list=extend_schema(
+        tags=["Mashina turlari"],
+        summary="Mashina turlari ro'yxati",
+        description="Barcha maxsus texnika va mashina turlari ro'yxatini qaytaradi. Nom bo'yicha qidirish va saralash imkoniyati mavjud."
+    ),
+    create=extend_schema(
+        tags=["Mashina turlari"],
+        summary="Yangi mashina turi qo'shish",
+        description="Tizimga yangi mashina/mexanizm turini kiritish."
+    ),
+    retrieve=extend_schema(
+        tags=["Mashina turlari"],
+        summary="Bitta mashina turi ma'lumotlari",
+        description="ID bo'yicha mashina turining batafsil ma'lumotlarini olish."
+    ),
+    update=extend_schema(
+        tags=["Mashina turlari"],
+        summary="Mashina turi ma'lumotlarini to'liq yangilash",
+        description="Mavjud mashina turi ma'lumotlarini to'liq tahrirlash (PUT)."
+    ),
+    partial_update=extend_schema(
+        tags=["Mashina turlari"],
+        summary="Mashina turi ma'lumotlarini qisman yangilash",
+        description="Mashina turi ma'lumotlarining tanlangan maydonlarini tahrirlash (PATCH)."
+    ),
+    destroy=extend_schema(
+        tags=["Mashina turlari"],
+        summary="Mashina turini o'chirish",
+        description="Berilgan ID ga tegishli mashina turini tizimdan o'chirish."
+    ),
+)
+class MachineTypeViewSet(viewsets.ModelViewSet):
+    queryset = MachineType.objects.all()
+    serializer_class = MachineTypeSerializer
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
+    filterset_class = MachineTypeFilter
+    search_fields = ['name']
+    ordering_fields = ['id', 'name', 'created_at']
+    ordering = ['-id']
+
+
+@extend_schema_view(
+    list=extend_schema(
+        tags=["Chuqurlik qatlamlari"],
+        summary="Chuqurlik qatlamlari ro'yxati",
+        description="Barcha burg'ulash va geologik chuqurlik qatlamlari ro'yxatini qaytaradi. Qidiruv va saralash imkoniyati mavjud."
+    ),
+    create=extend_schema(
+        tags=["Chuqurlik qatlamlari"],
+        summary="Yangi chuqurlik qatlami qo'shish",
+        description="Tizimga yangi chuqurlik qatlamini kiritish."
+    ),
+    retrieve=extend_schema(
+        tags=["Chuqurlik qatlamlari"],
+        summary="Bitta chuqurlik qatlami ma'lumotlari",
+        description="ID bo'yicha chuqurlik qatlamining batafsil ma'lumotlarini olish."
+    ),
+    update=extend_schema(
+        tags=["Chuqurlik qatlamlari"],
+        summary="Chuqurlik qatlamini to'liq yangilash",
+        description="Mavjud chuqurlik qatlami ma'lumotlarini to'liq tahrirlash (PUT)."
+    ),
+    partial_update=extend_schema(
+        tags=["Chuqurlik qatlamlari"],
+        summary="Chuqurlik qatlamini qisman yangilash",
+        description="Chuqurlik qatlami ma'lumotlarini qisman tahrirlash (PATCH)."
+    ),
+    destroy=extend_schema(
+        tags=["Chuqurlik qatlamlari"],
+        summary="Chuqurlik qatlamini o'chirish",
+        description="Berilgan ID ga tegishli chuqurlik qatlamini tizimdan o'chirish."
+    ),
+)
+class DepthsLayersViewSet(viewsets.ModelViewSet):
+    queryset = DepthsLayers.objects.all()
+    serializer_class = DepthsLayersSerializer
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
+    filterset_class = DepthsLayersFilter
+    search_fields = ['name']
+    ordering_fields = ['id', 'name', 'created_at']
+    ordering = ['-id']
+
+
+DepthLayerViewSet = DepthsLayersViewSet
+
+
+@extend_schema_view(
+    list=extend_schema(
+        tags=["Resurslar"],
+        summary="Resurslar ro'yxati",
+        description="Barcha moddiy va texnik resurslar ro'yxatini qaytaradi. Nom bo'yicha qidirish va saralash imkoniyati mavjud."
+    ),
+    create=extend_schema(
+        tags=["Resurslar"],
+        summary="Yangi resurs qo'shish",
+        description="Tizimga yangi resurs kiritish."
+    ),
+    retrieve=extend_schema(
+        tags=["Resurslar"],
+        summary="Bitta resurs ma'lumotlari",
+        description="ID bo'yicha resursning batafsil ma'lumotlarini olish."
+    ),
+    update=extend_schema(
+        tags=["Resurslar"],
+        summary="Resurs ma'lumotlarini to'liq yangilash",
+        description="Mavjud resurs ma'lumotlarini to'liq tahrirlash (PUT)."
+    ),
+    partial_update=extend_schema(
+        tags=["Resurslar"],
+        summary="Resurs ma'lumotlarini qisman yangilash",
+        description="Resurs ma'lumotlarini qisman tahrirlash (PATCH)."
+    ),
+    destroy=extend_schema(
+        tags=["Resurslar"],
+        summary="Resursni o'chirish",
+        description="Berilgan ID ga tegishli resursni tizimdan o'chirish."
+    ),
+)
+class ResourcesViewSet(viewsets.ModelViewSet):
+    queryset = Resources.objects.all()
+    serializer_class = ResourcesSerializer
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
+    filterset_class = ResourcesFilter
+    search_fields = ['name']
+    ordering_fields = ['id', 'name', 'created_at']
+    ordering = ['-id']
+
+
+ResourceViewSet = ResourcesViewSet
+
+
+@extend_schema_view(
+    list=extend_schema(
+        tags=["O'lchov birliklari"],
+        summary="O'lchov birliklari ro'yxati",
+        description="Barcha o'lchov birliklari ro'yxatini qaytaradi. Nom bo'yicha qidirish va saralash imkoniyati mavjud."
+    ),
+    create=extend_schema(
+        tags=["O'lchov birliklari"],
+        summary="Yangi o'lchov birligi qo'shish",
+        description="Tizimga yangi o'lchov birligini kiritish."
+    ),
+    retrieve=extend_schema(
+        tags=["O'lchov birliklari"],
+        summary="Bitta o'lchov birligi ma'lumotlari",
+        description="ID bo'yicha o'lchov birligining batafsil ma'lumotlarini olish."
+    ),
+    update=extend_schema(
+        tags=["O'lchov birliklari"],
+        summary="O'lchov birligini to'liq yangilash",
+        description="Mavjud o'lchov birligini to'liq tahrirlash (PUT)."
+    ),
+    partial_update=extend_schema(
+        tags=["O'lchov birliklari"],
+        summary="O'lchov birligini qisman yangilash",
+        description="O'lchov birligi ma'lumotlarini qisman tahrirlash (PATCH)."
+    ),
+    destroy=extend_schema(
+        tags=["O'lchov birliklari"],
+        summary="O'lchov birligini o'chirish",
+        description="Berilgan ID ga tegishli o'lchov birligini tizimdan o'chirish."
+    ),
+)
+class UnitViewSet(viewsets.ModelViewSet):
+    queryset = Unit.objects.all()
+    serializer_class = UnitSerializer
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
+    filterset_class = UnitFilter
+    search_fields = ['name']
+    ordering_fields = ['id', 'name', 'created_at']
+    ordering = ['-id']
+

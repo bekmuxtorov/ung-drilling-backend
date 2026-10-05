@@ -8,7 +8,12 @@ from .models import (
     TransportType,
     Position,
     Employee,
+    MachineType,
+    DepthsLayers,
+    Resources,
+    Unit,
 )
+
 
 
 @admin.register(Enterprise)
@@ -95,3 +100,44 @@ class EmployeeAdmin(admin.ModelAdmin):
     ordering = ('-id',)
     list_per_page = 25
     readonly_fields = ('created_at', 'updated_at')
+
+
+@admin.register(MachineType)
+class MachineTypeAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name', 'created_at', 'updated_at')
+    search_fields = ('name',)
+    list_filter = ('created_at',)
+    ordering = ('-id',)
+    list_per_page = 25
+    readonly_fields = ('created_at', 'updated_at')
+
+
+@admin.register(DepthsLayers)
+class DepthsLayersAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name', 'created_at', 'updated_at')
+    search_fields = ('name',)
+    list_filter = ('created_at',)
+    ordering = ('-id',)
+    list_per_page = 25
+    readonly_fields = ('created_at', 'updated_at')
+
+
+@admin.register(Resources)
+class ResourcesAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name', 'created_at', 'updated_at')
+    search_fields = ('name',)
+    list_filter = ('created_at',)
+    ordering = ('-id',)
+    list_per_page = 25
+    readonly_fields = ('created_at', 'updated_at')
+
+
+@admin.register(Unit)
+class UnitAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name', 'created_at', 'updated_at')
+    search_fields = ('name',)
+    list_filter = ('created_at',)
+    ordering = ('-id',)
+    list_per_page = 25
+    readonly_fields = ('created_at', 'updated_at')
+

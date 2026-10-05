@@ -4,7 +4,14 @@ from .models import (
     OperationStage,
     DailyWorkDescription,
     DailyTransportItem,
+    DrillingBPA,
+    WellDesign,
+    WellDesignInLength,
+    DepthsLayersLength,
+    DailyWorkDescriptionBPA,
+    AvailableResourcesBPA,
 )
+
 
 
 class OperationStageInline(admin.TabularInline):
@@ -127,3 +134,161 @@ class DailyTransportItemAdmin(admin.ModelAdmin):
     autocomplete_fields = ('daily_work_description', 'transport_type')
     readonly_fields = ('created_at', 'updated_at')
     list_per_page = 25
+
+
+class WellDesignInline(admin.TabularInline):
+    model = WellDesign
+    extra = 1
+    fields = ('type', 'pipe_diameter', 'length', 'start_date')
+
+
+class WellDesignInLengthInline(admin.TabularInline):
+    model = WellDesignInLength
+    extra = 1
+    readonly_fields = ('delta_display', 'delta_percent_display')
+    fields = ('type', 'length_plan', 'length_fact', 'delta_display', 'delta_percent_display', 'start_date')
+
+    @admin.display(description="Farq (Delta)")
+    def delta_display(self, obj):
+        return f"{obj.delta} m" if obj.id else "—"
+
+    @admin.display(description="Farq (%)")
+    def delta_percent_display(self, obj):
+        return f"{obj.delta_percent}%" if obj.id else "—"
+
+
+class DepthsLayersLengthInline(admin.TabularInline):
+    model = DepthsLayersLength
+    extra = 1
+    autocomplete_fields = ('layer',)
+    fields = ('layer', 'length')
+
+
+class AvailableResourcesBPAInline(admin.TabularInline):
+    model = AvailableResourcesBPA
+    extra = 1
+    autocomplete_fields = ('resources', 'unit')
+    fields = ('resources', 'unit', 'value', 'description')
+
+
+@admin.register(DrillingBPA)
+class DrillingBPAAdmin(admin.ModelAdmin):
+    list_display = (
+        'id',
+        'number',
+        'well_number',
+        'area',
+        'enterprise',
+        'employee',
+        'machine_type',
+        'depth_plan',
+        'current_depth_display',
+        'drilling_start_date',
+        'created_at',
+    )
+    list_filter = (
+        'enterprise',
+        'area__region',
+        'area',
+        'machine_type',
+        'drilling_start_date',
+        'created_at',
+    )
+    search_fields = (
+        'number',
+        'well_number',
+        'area__name',
+        'enterprise__name',
+        'employee__name',
+    )
+    autocomplete_fields = (
+        'enterprise',
+        'employee',
+        'area',
+        'machine_type',
+    )
+    readonly_fields = ('current_depth', 'created_at', 'updated_at')
+    inlines = [
+        WellDesignInline,
+        WellDesignInLengthInline,
+        DepthsLayersLengthInline,
+        AvailableResourcesBPAInline,
+    ]
+    list_per_page = 25
+
+    @admin.display(description="Hozirgi chuqurlik (m)")
+    def current_depth_display(self, obj):
+        return f"{obj.current_depth} m"
+
+
+@admin.register(WellDesign)
+class WellDesignAdmin(admin.ModelAdmin):
+    list_display = ('id', 'drilling_bpa', 'type', 'pipe_diameter', 'length', 'start_date', 'created_at')
+    list_filter = ('type', 'start_date')
+    search_fields = ('drilling_bpa__well_number', 'drilling_bpa__number')
+    autocomplete_fields = ('drilling_bpa',)
+    readonly_fields = ('created_at', 'updated_at')
+    list_per_page = 25
+
+
+@admin.register(WellDesignInLength)
+class WellDesignInLengthAdmin(admin.ModelAdmin):
+    list_display = (
+        'id',
+        'drilling_bpa',
+        'type',
+        'length_plan',
+        'length_fact',
+        'delta',
+        'delta_percent_display',
+        'start_date',
+    )
+    list_filter = ('type', 'start_date')
+    search_fields = ('drilling_bpa__well_number', 'drilling_bpa__number')
+    autocomplete_fields = ('drilling_bpa',)
+    readonly_fields = ('delta', 'delta_percent', 'created_at', 'updated_at')
+    list_per_page = 25
+
+    @admin.display(description="Farq (%)")
+    def delta_percent_display(self, obj):
+        return f"{obj.delta_percent}%"
+
+
+@admin.register(DepthsLayersLength)
+class DepthsLayersLengthAdmin(admin.ModelAdmin):
+    list_display = ('id', 'drilling_bpa', 'layer', 'length', 'created_at')
+    list_filter = ('layer',)
+    search_fields = ('drilling_bpa__well_number', 'layer__name')
+    autocomplete_fields = ('drilling_bpa', 'layer')
+    readonly_fields = ('created_at', 'updated_at')
+    list_per_page = 25
+
+
+@admin.register(DailyWorkDescriptionBPA)
+class DailyWorkDescriptionBPAAdmin(admin.ModelAdmin):
+    list_display = (
+        'id',
+        'drilling_bpa',
+        'report_date',
+        'density',
+        'viscosity',
+        'flow_rate',
+        'pump_pressure',
+        'created_at',
+    )
+    list_filter = ('report_date', 'created_at')
+    search_fields = ('drilling_bpa__well_number', 'description')
+    autocomplete_fields = ('drilling_bpa',)
+    readonly_fields = ('created_at', 'updated_at')
+    list_per_page = 25
+
+
+@admin.register(AvailableResourcesBPA)
+class AvailableResourcesBPAAdmin(admin.ModelAdmin):
+    list_display = ('id', 'drilling_bpa', 'resources', 'value', 'unit', 'created_at')
+    list_filter = ('resources', 'unit')
+    search_fields = ('drilling_bpa__well_number', 'resources__name', 'description')
+    autocomplete_fields = ('drilling_bpa', 'resources', 'unit')
+    readonly_fields = ('created_at', 'updated_at')
+    list_per_page = 25
+

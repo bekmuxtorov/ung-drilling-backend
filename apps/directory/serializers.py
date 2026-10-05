@@ -9,6 +9,10 @@ from .models import (
     Position,
     Employee,
     OperationStageType,
+    MachineType,
+    DepthsLayers,
+    Resources,
+    Unit,
 )
 
 
@@ -101,3 +105,50 @@ class EmployeeSerializer(serializers.ModelSerializer):
 class OperationStageChoiceSerializer(serializers.Serializer):
     value = serializers.CharField()
     label = serializers.CharField()
+
+
+class MachineTypeSerializer(serializers.ModelSerializer):
+    """
+    Mashina turi (Machine Type) serializatori.
+    """
+    class Meta:
+        model = MachineType
+        fields = ['id', 'name', 'created_at', 'updated_at']
+        read_only_fields = ['id', 'created_at', 'updated_at']
+
+
+class DepthsLayersSerializer(serializers.ModelSerializer):
+    """
+    Chuqurlik qatlami (Depths Layer) serializatori.
+    """
+    class Meta:
+        model = DepthsLayers
+        fields = ['id', 'name', 'created_at', 'updated_at']
+        read_only_fields = ['id', 'created_at', 'updated_at']
+
+
+DepthLayerSerializer = DepthsLayersSerializer
+
+
+class ResourcesSerializer(serializers.ModelSerializer):
+    """
+    Resurs (Resources) serializatori.
+    """
+    class Meta:
+        model = Resources
+        fields = ['id', 'name', 'created_at', 'updated_at']
+        read_only_fields = ['id', 'created_at', 'updated_at']
+
+
+ResourceSerializer = ResourcesSerializer
+
+
+class UnitSerializer(serializers.ModelSerializer):
+    """
+    O'lchov birligi (Unit of Measurement) serializatori.
+    """
+    class Meta:
+        model = Unit
+        fields = ['id', 'name', 'created_at', 'updated_at']
+        read_only_fields = ['id', 'created_at', 'updated_at']
+

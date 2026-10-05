@@ -8,7 +8,12 @@ from .models import (
     TransportType,
     Position,
     Employee,
+    MachineType,
+    DepthsLayers,
+    Resources,
+    Unit,
 )
+
 
 
 class EnterpriseFilter(django_filters.FilterSet):
@@ -79,3 +84,42 @@ class EmployeeFilter(django_filters.FilterSet):
     class Meta:
         model = Employee
         fields = ['name', 'phone_number', 'position', 'position_id']
+
+
+class MachineTypeFilter(django_filters.FilterSet):
+    name = django_filters.CharFilter(lookup_expr='icontains')
+
+    class Meta:
+        model = MachineType
+        fields = ['name']
+
+
+class DepthsLayersFilter(django_filters.FilterSet):
+    name = django_filters.CharFilter(lookup_expr='icontains')
+
+    class Meta:
+        model = DepthsLayers
+        fields = ['name']
+
+
+DepthLayerFilter = DepthsLayersFilter
+
+
+class ResourcesFilter(django_filters.FilterSet):
+    name = django_filters.CharFilter(lookup_expr='icontains')
+
+    class Meta:
+        model = Resources
+        fields = ['name']
+
+
+ResourceFilter = ResourcesFilter
+
+
+class UnitFilter(django_filters.FilterSet):
+    name = django_filters.CharFilter(lookup_expr='icontains')
+
+    class Meta:
+        model = Unit
+        fields = ['name']
+

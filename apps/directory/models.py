@@ -160,3 +160,70 @@ class Employee(TimeStampedModel):
 
     def __str__(self):
         return f"{self.name} - {self.position.name}"
+
+
+class MachineType(TimeStampedModel):
+    """
+    Mashina / Maxsus texnika turi (Machine Type) modeli.
+    """
+    name = models.CharField(max_length=255, db_index=True, verbose_name="Mashina turi nomi")
+
+    class Meta:
+        verbose_name = "Mashina turi"
+        verbose_name_plural = "Mashina turlari"
+        ordering = ["-id"]
+
+    def __str__(self):
+        return self.name
+
+
+class DepthsLayers(TimeStampedModel):
+    """
+    Chuqurlik qatlami (Depths Layer) modeli.
+    """
+    name = models.CharField(max_length=255, db_index=True, verbose_name="Qatlam nomi")
+
+    class Meta:
+        verbose_name = "Chuqurlik qatlami"
+        verbose_name_plural = "Chuqurlik qatlamlari"
+        ordering = ["-id"]
+
+    def __str__(self):
+        return self.name
+
+
+DepthLayer = DepthsLayers
+
+
+class Resources(TimeStampedModel):
+    """
+    Resurs / Moddiy resurs (Resources) modeli.
+    """
+    name = models.CharField(max_length=255, db_index=True, verbose_name="Resurs nomi")
+
+    class Meta:
+        verbose_name = "Resurs"
+        verbose_name_plural = "Resurslar"
+        ordering = ["-id"]
+
+    def __str__(self):
+        return self.name
+
+
+Resource = Resources
+
+
+class Unit(TimeStampedModel):
+    """
+    O'lchov birligi (Unit of Measurement) modeli.
+    """
+    name = models.CharField(max_length=255, db_index=True, verbose_name="O'lchov birligi nomi")
+
+    class Meta:
+        verbose_name = "O'lchov birligi"
+        verbose_name_plural = "O'lchov birliklari"
+        ordering = ["-id"]
+
+    def __str__(self):
+        return self.name
+

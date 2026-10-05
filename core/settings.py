@@ -200,7 +200,19 @@ SPECTACULAR_SETTINGS = {
         {'name': 'Lavozimlar', 'description': 'Korxonadagi lavozimlar ma\'lumotnomasi'},
         {'name': 'Xodimlar', 'description': 'Xodimlarni ro\'yxatga olish va lavozimlarga biriktirish'},
         {'name': 'Operatsiya bosqichlari', 'description': 'Demontaj, tashish va montaj operatsiya bosqichlari ro\'yxati (Enum)'},
+        {'name': 'Mashina turlari', 'description': 'Maxsus texnika va mashina turlari ma\'lumotnomasi'},
+        {'name': 'Chuqurlik qatlamlari', 'description': 'Burg\'ulash va geologik chuqurlik qatlamlari ma\'lumotnomasi'},
+        {'name': 'Resurslar', 'description': 'Burg\'ulash va montaj operatsiyalaridagi moddiy resurslar ma\'lumotnomasi'},
+        {'name': "O'lchov birliklari", 'description': 'Moddiy resurslar va ko\'rsatkichlar uchun o\'lchov birliklari ma\'lumotnomasi'},
+        {'name': 'Burg\'ulash (BPA) operatsiyalari', 'description': 'Burg\'ulash (BPA) operatsiyalari va umumiy texnik ko\'rsatkichlari'},
+        {'name': 'Quduq konstruksiyasi (Well Design)', 'description': 'Quduq konstruksiyasi (quvur diametri va uzunligi, reja/fakt)'},
+        {'name': 'Quduq o\'tish dinamikasi (Well Design in Length)', 'description': 'Kunlik, oylik va yillik reja va faktik o\'tish (delta, delta_percent)'},
+        {'name': 'Chuqurlik qatlamlari oraliqlari (Depths Layers Length)', 'description': 'BPA bo\'yicha geologik qatlamlar va ularning chuqurlik oraliqlari'},
+        {'name': 'BPA kunlik ish hisobotlari (Daily Works BPA)', 'description': 'BPA bo\'yicha kunlik ishlar, burg\'ulash eritmasi va texnologik parametrlari'},
+        {'name': 'BPA mavjud resurslari (Available Resources BPA)', 'description': 'BPA qudug\'iga ajratilgan moddiy va texnik resurslar'},
     ],
+
+
     'SWAGGER_UI_SETTINGS': {
         'deepLinking': True,
         'persistAuthorization': True,
