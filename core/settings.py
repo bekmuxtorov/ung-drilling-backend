@@ -53,6 +53,7 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'apps.common.middleware.AuditLogMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
@@ -187,6 +188,7 @@ SPECTACULAR_SETTINGS = {
         {'name': 'Autentifikatsiya (JWT)', 'description': 'JWT Token olish, yangilash, tekshirish hamda joriy profil amallari'},
         {'name': 'Rollar va Ruxsatlar', 'description': 'Tizim rollari (Role) va Django ruxsatlari (Permissions) boshqaruvi'},
         {'name': 'Foydalanuvchilar boshqaruvi', 'description': 'Foydalanuvchilar (User) ro\'yxati va boshqaruvi'},
+        {'name': 'Audit loglari (Audit Trail)', 'description': 'Tizimdagi barcha o\'zgarishlar jurnali (qaysi user, qaysi IP, MAC ID, eski va yangi qiymatlar)'},
         {'name': 'VBM Operatsiyalari (Vishka-montaj)', 'description': 'Burg\'ulash qurilmasini ko\'chirish va montaj qilish operatsiyalari'},
         {'name': 'Operatsiya bosqichlari (Stages)', 'description': 'Demontaj, Tashish va Montaj bosqichlari (reja/fakt kunlar va sanalar)'},
         {'name': 'Kunlik ish hisobotlari (Daily Works)', 'description': 'Har bir operatsiya bo\'yicha kunlik bajarilgan ishlar tavsifi'},
@@ -211,6 +213,7 @@ SPECTACULAR_SETTINGS = {
         {'name': 'BPA kunlik ish hisobotlari (Daily Works BPA)', 'description': 'BPA bo\'yicha kunlik ishlar, burg\'ulash eritmasi va texnologik parametrlari'},
         {'name': 'BPA mavjud resurslari (Available Resources BPA)', 'description': 'BPA qudug\'iga ajratilgan moddiy va texnik resurslar'},
     ],
+
 
 
     'SWAGGER_UI_SETTINGS': {

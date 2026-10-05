@@ -27,13 +27,18 @@ urlpatterns = [
     # OpenAPI 3.0 Schema va Swagger / ReDoc hujjatlari
     path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
     path('api/docs/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
+    path('swagger/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui-alias'),
+    path('docs/', SpectacularSwaggerView.as_view(url_name='schema'), name='docs-alias'),
+    path('api/swagger/', SpectacularSwaggerView.as_view(url_name='schema'), name='api-swagger-alias'),
     path('api/redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
 
-    # REST API v1 (Auth, Ma'lumotnomalar va Operatsiyalar)
+    # REST API v1 (Auth, Ma'lumotnomalar, Operatsiyalar va Audit)
     path('api/v1/auth/', include('apps.accounts.urls')),
+    path('api/v1/', include('apps.common.urls')),
     path('api/v1/', include('apps.directory.urls')),
     path('api/v1/', include('apps.operations.urls')),
 ]
+
 
 # Static va media fayllarni brauzer yuklay olishi uchun (DEBUG rejimida)
 if settings.DEBUG:

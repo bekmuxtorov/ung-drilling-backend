@@ -587,3 +587,12 @@ class UnitViewSet(viewsets.ModelViewSet):
     ordering_fields = ['id', 'name', 'created_at']
     ordering = ['-id']
 
+
+# ==============================================================================
+# Audit Loglari (Audit Trail)
+# ==============================================================================
+# Tizim audit loglari Best Practice bo'yicha `apps.common` ilovasida joylashgan.
+# Swaggerda: "Audit loglari (Audit Trail)" bo'limida /api/v1/audit-logs/ sifatida ko'rinadi.
+from apps.common.views import AuditLogViewSet  # noqa: F401
+
+
