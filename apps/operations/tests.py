@@ -380,3 +380,66 @@ class BPAAPICRUDTests(TestCase):
         self.assertEqual(res_post.data['resources']['name'], self.resource.name)
         self.assertEqual(res_post.data['unit']['name'], self.unit.name)
         self.assertEqual(res_post.data['value'], 500.0)
+
+
+class PopulateDrillingBPACommandTests(TestCase):
+    """
+    populate_drilling_bpa va seed_drilling_bpas management buyruqlari
+    uchun integratsion testlar to'plami.
+    """
+
+    def test_populate_drilling_bpa_creates_exact_counts(self):
+        """
+        populate_drilling_bpa buyrug'i 5 ta DrillingBPA va har biriga
+        5 tadan har bir bog'liq model yozuvini (jami 5x5=25 tadan har bir model,
+        jami 125 ta bog'liq yozuv) yaratishini tekshirish.
+        """
+        from io import StringIO
+        from django.core.management import call_command
+        from apps.operations.models import (
+            DrillingBPA,
+            WellDesign,
+            WellDesignInLength,
+            DepthsLayersLength,
+            DailyWorkDescriptionBPA,
+            AvailableResourcesBPA,
+        )
+
+        out = StringIO()
+        call_command("populate_drilling_bpa", "--clean", stdout=out)
+
+        # 5 ta BPA tekshiruvi
+        bpas = DrillingBPA.objects.all()
+        self.assertEqual(bpas.count(), 5)
+
+        # Har bir BPA uchun 5 tadan bog'liq model tekshiruvi
+        for bpa in bpas:
+            self.assertEqual(bpa.well_designs.count(), 5)
+            self.assertEqual(bpa.well_designs_in_length.count(), 5)
+            self.assertEqual(bpa.depths_layers_lengths.count(), 5)
+            self.assertEqual(bpa.daily_works.count(), 5)
+            self.assertEqual(bpa.available_resources.count(), 5)
+
+        # Umumiy jami sonlar
+        self.assertEqual(WellDesign.objects.count(), 25)
+        self.assertEqual(WellDesignInLength.objects.count(), 25)
+        self.assertEqual(DepthsLayersLength.objects.count(), 25)
+        self.assertEqual(DailyWorkDescriptionBPA.objects.count(), 25)
+        self.assertEqual(AvailableResourcesBPA.objects.count(), 25)
+
+    def test_seed_drilling_bpas_alias_command(self):
+        """
+        seed_drilling_bpas alias buyrug'i ham to'g'ri ishlashini tekshirish.
+        """
+        from io import StringIO
+        from django.core.management import call_command
+        from apps.operations.models import DrillingBPA
+
+        out = StringIO()
+        call_command("seed_drilling_bpas", "--count", "2", "--clean", stdout=out)
+
+        self.assertEqual(DrillingBPA.objects.count(), 2)
+        for bpa in DrillingBPA.objects.all():
+            self.assertEqual(bpa.well_designs.count(), 5)
+            self.assertEqual(bpa.available_resources.count(), 5)
+
